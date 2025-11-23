@@ -2,6 +2,8 @@ plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.compose)
+    id("com.google.devtools.ksp")
+    id("com.google.dagger.hilt.android")
 }
 
 android {
@@ -30,11 +32,11 @@ android {
         }
     }
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_11
-        targetCompatibility = JavaVersion.VERSION_11
+        sourceCompatibility = JavaVersion.VERSION_17
+        targetCompatibility = JavaVersion.VERSION_17
     }
     kotlinOptions {
-        jvmTarget = "11"
+        jvmTarget = "17"
     }
     buildFeatures {
         compose = true
@@ -58,6 +60,27 @@ dependencies {
     debugImplementation(libs.androidx.compose.ui.tooling)
     debugImplementation(libs.androidx.compose.ui.test.manifest)
 
+    // ViewModel + StateFlow
+    implementation(libs.androidx.lifecycle.viewmodel.compose)
+    implementation(libs.jetbrains.kotlinx.coroutines.android)
 
+    //Hilt
+    implementation(libs.dagger.hilt.android)
+    ksp(libs.hilt.compiler)
+    implementation(libs.androidx.hilt)
 
+    // Room for offline queue
+    implementation(libs.androidx.room.ktx)
+    implementation(libs.androidx.room.paging)
+    ksp(libs.androidx.room.compiler)
+
+    // WebSocket - OkHttp
+    implementation(libs.okhttp)
+
+    // Connectivity check
+    implementation(libs.jetbrains.kotlinx.coroutines.android)
+    implementation(libs.accompanist.systemuicontroller)
+
+    // (CloudOff + all icons work
+    implementation(libs.androidx.compose.material.icons.extended)
 }
